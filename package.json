@@ -4,6 +4,11 @@
   "description": "Adds coloured error counters to the statusbar",
   "version": "0.0.1",
   "license": "MIT",
+  "publisher": "bradzacher",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bradzacher/vscode-coloured-status-bar-problems.git"
+  },
   "author": {
     "email": "brad.zacher@gmail.com",
     "name": "Brad Zacher",
@@ -15,10 +20,11 @@
     "clean": "tsc -b tsconfig.build.json --clean",
     "format": "prettier --write \"./**/*.{ts,js,json,md}\" --ignore-path ./.prettierignore",
     "lint": "eslint . --ext .js,.ts --ignore-path ./.eslintignore",
-    "watch": "tsc -b tsconfig.build.json --watch",
+    "vscode:publish": "yarn vsce publish",
     "pretest": "yarn run build",
     "test": "node ./out/test/runTest.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "watch": "tsc -b tsconfig.build.json --watch"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
@@ -30,9 +36,9 @@
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "typescript": "^3.7.2",
+    "vsce": "^1.69.0",
     "vscode-test": "^1.2.2"
   },
-
   "//": "vscode extension settings",
   "engines": {
     "vscode": "^1.40.0"
