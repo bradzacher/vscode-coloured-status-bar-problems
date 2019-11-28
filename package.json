@@ -1,0 +1,56 @@
+{
+  "name": "vscode-coloured-status-bar-problems",
+  "displayName": "Coloured Status Bar Problems",
+  "description": "Adds coloured error counters to the statusbar",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "email": "brad.zacher@gmail.com",
+    "name": "Brad Zacher",
+    "url": "https://github.com/bradzacher"
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run build",
+    "build": "tsc -b tsconfig.build.json",
+    "clean": "tsc -b tsconfig.build.json --clean",
+    "format": "prettier --write \"./**/*.{ts,js,json,md}\" --ignore-path ./.prettierignore",
+    "lint": "eslint . --ext .js,.ts --ignore-path ./.eslintignore",
+    "watch": "tsc -b tsconfig.build.json --watch",
+    "pretest": "yarn run build",
+    "test": "node ./out/test/runTest.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.11.7",
+    "@types/vscode": "^1.40.0",
+    "eslint-config-brad": "^2.1.3",
+    "glob": "^7.1.5",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2",
+    "vscode-test": "^1.2.2"
+  },
+
+  "//": "vscode extension settings",
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "keywords": [
+    "problems",
+    "statusbar",
+    "colour",
+    "highlight"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": []
+  }
+}
