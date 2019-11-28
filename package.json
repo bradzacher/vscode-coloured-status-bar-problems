@@ -2,7 +2,7 @@
   "name": "vscode-coloured-status-bar-problems",
   "displayName": "Coloured Status Bar Problems",
   "description": "Adds coloured error counters to the statusbar",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "license": "MIT",
   "publisher": "bradzacher",
   "repository": {
