@@ -5,6 +5,9 @@ https://github.com/microsoft/vscode/blob/7cc88f5caa54026ab5baf2445349b0d45417f1b
 
 import * as vscode from 'vscode';
 
+import { getConfig } from './getConfig';
+import { ItemType } from './ItemType';
+
 type MarkerStatistics = {
   errors: number;
   warnings: number;
@@ -21,18 +24,10 @@ type ItemText = {
 // The default problems item is priority 50: https://github.com/microsoft/vscode/blob/7cc88f5caa54026ab5baf2445349b0d45417f1b2/src/vs/workbench/contrib/markers/browser/markers.contribution.ts#L288
 // so we setup to display these items slightly to the left of it
 const BASE_PRIORITY = 50;
-
-// values serve as the "priority"
-enum ItemType {
-  Error = BASE_PRIORITY + 0.3,
-  Warning = BASE_PRIORITY + 0.2,
-  Info = BASE_PRIORITY + 0.1,
-}
-
-const COLOURS: Readonly<Record<ItemType, vscode.ThemeColor>> = {
-  [ItemType.Error]: new vscode.ThemeColor('problemsErrorIcon.foreground'),
-  [ItemType.Warning]: new vscode.ThemeColor('problemsWarningIcon.foreground'),
-  [ItemType.Info]: new vscode.ThemeColor('problemsInfoIcon.foreground'),
+const PRIORITY: Readonly<Record<ItemType, number>> = {
+  [ItemType.Error]: BASE_PRIORITY + 0.3,
+  [ItemType.Warning]: BASE_PRIORITY + 0.2,
+  [ItemType.Info]: BASE_PRIORITY + 0.1,
 };
 
 class ProblemsStatusBarItem {
@@ -44,11 +39,11 @@ class ProblemsStatusBarItem {
     this.type = type;
     this.statusBarItem = vscode.window.createStatusBarItem(
       vscode.StatusBarAlignment.Left,
-      this.type,
+      PRIORITY[this.type],
     );
     this.statusBarItem.command = 'workbench.actions.view.toggleProblems';
 
-    this.interval = setInterval(() => this.refreshUI(), 1000);
+    this.interval = setInterval(() => this.refreshUI(), 2000);
     vscode.languages.onDidChangeDiagnostics(() => this.refreshUI());
 
     this.refreshUI();
@@ -59,7 +54,7 @@ class ProblemsStatusBarItem {
     clearInterval(this.interval);
   }
 
-  public refreshUI(): void {
+  private refreshUI(): void {
     const diagnostics = vscode.languages.getDiagnostics();
     const stats: MarkerStatistics = {
       errors: 0,
@@ -99,11 +94,13 @@ class ProblemsStatusBarItem {
       this.statusBarItem.hide();
     }
 
+    const config = getConfig();
+
     // only colour the item if there are items for it
     if (count > 0) {
-      this.statusBarItem.color = COLOURS[this.type];
+      this.statusBarItem.color = config[this.type].active;
     } else {
-      this.statusBarItem.color = undefined;
+      this.statusBarItem.color = config[this.type].empty;
     }
   }
 
@@ -170,4 +167,4 @@ class ProblemsStatusBarItem {
   }
 }
 
-export { ProblemsStatusBarItem, ItemType };
+export { ProblemsStatusBarItem };
